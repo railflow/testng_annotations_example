@@ -16,8 +16,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import io.railflow.annotations.CustomField;
 import io.railflow.annotations.Railflow;
@@ -64,13 +67,7 @@ public class PizzaTest {
 	public void afterMethod(final ITestResult result) throws IOException {
 		if (ITestResult.FAILURE == result.getStatus()) {
 			final byte[] screenshot = this.webDriver.getScreenshotAs(OutputType.BYTES);
-			final ITestResult currentTestResult = Reporter.getCurrentTestResult();
-			try {
-				Reporter.setCurrentTestResult(result);
-				CurrentTest.addAttachment(result.getName() + "_failure.png", screenshot);
-			} finally {
-				Reporter.setCurrentTestResult(currentTestResult);
-			}
+			CurrentTest.addAttachment(result.getName() + "_failure.png", screenshot, result);
 		}
 	}
 

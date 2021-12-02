@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <testng.version>7.1.0</testng.version>
-        <railflow-testng-annotations.version>0.2</railflow-testng-annotations.version>
+        <railflow-testng-annotations.version>0.3</railflow-testng-annotations.version>
         <selenium-java.version>3.141.59</selenium-java.version>
     </properties>
 
