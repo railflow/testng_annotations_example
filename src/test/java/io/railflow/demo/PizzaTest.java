@@ -36,7 +36,8 @@ import io.railflow.annotations.testng.RailflowReporter;
 		@CustomField(name = "Required text field", value = "Hello from Railflow"),
 		@CustomField(name = "estimate", value = "42s") }, resultFields = {
 				@CustomField(name = "Custom field", value = "Results from Railflow"),
-				@CustomField(name = "version", value = "1.0") }, smartFailureAssignment = "user1@yourcompany.com")
+				@CustomField(name = "version", value = "1.0") }, smartFailureAssignment = { "user1@yourcompany.com",
+						"user2@yourcompany.com" })
 @Listeners(RailflowReporter.class)
 public class PizzaTest {
 	private static final String GOOGLE = "https://google.com";
@@ -55,9 +56,19 @@ public class PizzaTest {
 		assertTrue("Cannot find any pizzas", results.size() > 0);
 	}
 
-	@Railflow(testrailIds = 13390)
+	@Railflow(title = "Railflow on the method level", jiraIds = { "ISSUE-44", "ISSUE-45" }, caseType = "Performance", casePriority = "Critical", caseFields = {
+			@CustomField(name = "required text field", value = "method value"), @CustomField(name = "estimate", value = "24s") }, resultFields = {
+					@CustomField(name = "Custom field", value = "result from annotation on method") }, smartFailureAssignment = {
+							"user3@yourcompany.com" })
 	@Test
 	public void there_are_no_bad_pizzas() {
+		this.webDriver.navigate().to(GOOGLE);
+		final List<WebElement> results = getGoogleResults("bad pizza");
+		assertEquals(results.size(), 0, "Liar! There are no bad pizzas!!!");
+	}
+
+	@Test
+	public void something_to_fail() {
 		this.webDriver.navigate().to(GOOGLE);
 		final List<WebElement> results = getGoogleResults("bad pizza");
 		assertEquals(results.size(), 0, "Liar! There are no bad pizzas!!!");
