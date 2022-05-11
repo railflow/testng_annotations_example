@@ -64,8 +64,7 @@ public class PizzaTest {
 
 	@Railflow(title = "Railflow on the method level", jiraIds = { "ISSUE-44", "ISSUE-45" }, caseType = "Performance", casePriority = "Critical", caseFields = {
 			@CustomField(name = "required text field", value = "method value"), @CustomField(name = "estimate", value = "24s") }, resultFields = {
-					@CustomField(name = "Custom field", value = "result from annotation on method") }, smartFailureAssignment = {
-							"user3@yourcompany.com" })
+					@CustomField(name = "Custom field", value = "result from annotation on method") })
 	@Test
 	public void there_are_no_bad_pizzas() {
 		this.webDriver.navigate().to(GOOGLE);
