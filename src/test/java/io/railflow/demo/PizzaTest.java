@@ -3,7 +3,6 @@ package io.railflow.demo;
 import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,12 +15,14 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.railflow.annotations.CustomField;
 import io.railflow.annotations.Railflow;
 import io.railflow.annotations.testng.CurrentTest;
@@ -41,11 +42,16 @@ import io.railflow.annotations.testng.RailflowReporter;
 @Listeners(RailflowReporter.class)
 public class PizzaTest {
 	private static final String GOOGLE = "https://google.com";
-	private final RemoteWebDriver webDriver = new ChromeDriver(new ChromeOptions().addArguments("--start-fullscreen"));
+	private RemoteWebDriver webDriver;
+
+	@BeforeTest
+	public void setUp() {
+		WebDriverManager.chromedriver().setup();
+	}
 
 	@BeforeClass
-	public static void setUp() {
-		System.setProperty("webdriver.chrome.driver", new File("chromedriver.exe").getAbsolutePath());
+	public void beforeClass() {
+		this.webDriver = new ChromeDriver(new ChromeOptions().addArguments("--start-fullscreen"));
 	}
 
 	@Railflow(title = "Find some pizzas")
@@ -82,7 +88,7 @@ public class PizzaTest {
 		}
 	}
 
-	@AfterTest
+	@AfterClass
 	public void afterTest() {
 		this.webDriver.quit();
 	}
